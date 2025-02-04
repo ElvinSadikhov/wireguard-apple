@@ -1,5 +1,5 @@
 Pod::Spec.new do |s|
-  s.name             = 'WireGuardKit'
+  s.name             = 'WireGuardKitTest'
   s.version          = '1.0.15-27'
   s.summary          = 'WireGuard implementation for Apple devices'
   s.homepage         = 'https://github.com/ElvinSadikhov/wireguard-apple'
