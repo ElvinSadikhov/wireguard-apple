@@ -5,8 +5,8 @@ import PackageDescription
 let package = Package(
     name: "WireGuardKit",
     platforms: [
-        // .macOS(.v12),
-        .iOS(.v15)
+        .macOS(.v11),  // 🔄 Downgrade to macOS 11
+        .iOS(.v14)     // 🔄 Downgrade to iOS 14
     ],
     products: [
         .library(name: "WireGuardKit", targets: ["WireGuardKit"])
