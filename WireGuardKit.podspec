@@ -9,13 +9,16 @@ Pod::Spec.new do |s|
   s.ios.deployment_target = '15.0'
   s.swift_version = '5.7'
 
-  # ✅ Ensure all source files are included
-  s.source_files = 'Sources/**/*.{swift,h,m,c,go}'
+  # ✅ Ensure only iOS source files are included
+  s.source_files = 'Sources/**/*.{swift,h,m,c,go}', 
+                   'Sources/WireGuardApp/UI/iOS/**/*.{swift,h,m,c}' # Include only iOS UI files
 
-  # ✅ Preserve all files so they are not deleted
+  # ❌ Exclude macOS-specific files
+  s.exclude_files = 'Sources/WireGuardApp/UI/macOS/**/*.{swift,h,m,c}'
+
+  # ✅ Preserve everything else
   s.preserve_paths = 'Sources/**/*'
-
-  # ✅ Ensure the Go library is included
+  
   s.vendored_libraries = 'Sources/WireGuardKitGo/wg-go.a'
 
   s.pod_target_xcconfig = {
