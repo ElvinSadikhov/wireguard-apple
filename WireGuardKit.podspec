@@ -7,23 +7,23 @@ Pod::Spec.new do |s|
   s.author           = { 'ElvinSadikhov' => 'your.email@example.com' }
   s.source           = { :git => 'https://github.com/ElvinSadikhov/wireguard-apple.git', :tag => s.version.to_s }
   s.ios.deployment_target = '15.0'
-
-  # Make sure this path is correct and the framework exists
-  s.vendored_frameworks = 'Sources/WireGuardKitGo/wg-go.xcframework'
   s.swift_version = '5.7'
 
+  # Ensure the Go files and headers are included
   s.source_files = [
     'Sources/WireGuardKitC/**/*.{c,h}',
     'Sources/WireGuardKit/**/*.{swift}',
     'Sources/Shared/**/*.{c,h,swift}',
-    'Sources/WireGuardKitGo/wireguard.h',
     'Sources/WireGuardNetworkExtension/**/*.{c,h,swift}'
   ]
 
   s.preserve_paths = [
     'Sources/WireGuardKitC/module.modulemap',
-    'Sources/WireGuardKitGo/wg-go.xcframework/**/*'  # Add this line
+    'Sources/WireGuardKitGo/**/*'  # Preserve the entire Go module
   ]
+
+  # Include the Go static library if it exists
+  s.vendored_libraries = 'Sources/WireGuardKitGo/wg-go.a'  # Changed from xcframework to .a
 
   s.pod_target_xcconfig = {
     'SWIFT_INCLUDE_PATHS' => [
@@ -34,7 +34,7 @@ Pod::Spec.new do |s|
       '${PODS_TARGET_SRCROOT}/Sources/WireGuardNetworkExtension'
     ].join(' '),
     'HEADER_SEARCH_PATHS' => '${PODS_TARGET_SRCROOT}/Sources/WireGuardKitGo',
-    'FRAMEWORK_SEARCH_PATHS' => '${PODS_TARGET_SRCROOT}/Sources/WireGuardKitGo',  # Add this line
-    'APPLICATION_EXTENSION_API_ONLY' => 'YES'
+    'LIBRARY_SEARCH_PATHS' => '${PODS_TARGET_SRCROOT}/Sources/WireGuardKitGo',
+    'OTHER_LDFLAGS' => '-force_load $(PODS_TARGET_SRCROOT)/Sources/WireGuardKitGo/wg-go.a'
   }
 end
